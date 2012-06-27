@@ -1,0 +1,4 @@
+h1. Approach
+
+* Create an angular service that can be injected into controllers similar to the angular REST resource library.
+
