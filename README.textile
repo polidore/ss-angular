@@ -1,4 +1,23 @@
 h1. Approach
 
-* Create an angular service that can be injected into controllers similar to the angular REST resource library.
+Create an angular service that can be injected into controllers similar to the angular REST resource library.
 
+h1. Pub Sub
+
+Once you have injected this module into your app and the pubsub service into your scope, you can simply create subscriptions to scope events using angular's API, and if they are prefixed with ss-, this library will subscribe for events from scoket stream with the same name.  When socketstream pushes events, they will be wrapped into Angular scope events on the appropriate scope. 
+
+This method allows you to target the events to the right part of your app and to keep in an "angular" mindset while gaining from socketstream. 
+
+See the example app.  The controller looks like this: 
+
+<pre>
+angular.module('exampleApp', ['ssAngular'])
+  .controller('SSCtrl',function($scope,pubsub) {
+        pubsub($scope);
+
+            $scope.messages = []
+                $scope.$on('ss-example', function(event,msg) {
+                        $scope.messages.push(msg);
+                            });
+                  });
+</pre>
