@@ -11,6 +11,7 @@ This method allows you to target the events to the right part of your app and to
 See the example app.  The controller looks like this: 
 
 <pre>
+<code class="javascript">
 angular.module('exampleApp', ['ssAngular'])
   .controller('SSCtrl',function($scope,pubsub) {
         pubsub($scope);
@@ -20,4 +21,5 @@ angular.module('exampleApp', ['ssAngular'])
                         $scope.messages.push(msg);
                             });
                   });
+</code>
 </pre>
