@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <SocketStream>
+    <meta charset="utf-8"/>
+    <title>Angular Example</title>
+  </head>
+  <body ng-app="exampleApp">
+    <h3>This list is created by the server and pushed to angular!</h3>
+    <div ng-controller="SSCtrl">
+      <ul>
+        <li ng-repeat="message in messages">
+          {{message}}
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
