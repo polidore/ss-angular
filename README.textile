@@ -23,3 +23,7 @@ angular.module('exampleApp', ['ssAngular'])
                   });
 </code>
 </pre>
+
+h1. Running Example
+
+cd to the example dir and run @npm install@
