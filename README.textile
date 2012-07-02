@@ -31,5 +31,5 @@ h2. Running Example
 
 h1. RPC
 
-This will be handled with the promise API
+This will be handled with the promise API in angular ($q).
 
