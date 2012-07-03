@@ -27,7 +27,7 @@ angular.module('exampleApp', ['ssAngular'])
 h2. Running Example
 
 * cd to the example dir and run @npm install@
-* make sure the symlink to the library is working. on windows, i had to fix it after pulling.
+* make sure the symlink in example/client/code/lib to the library is working. on windows, i had to fix it after pulling.
 
 h1. RPC
 
