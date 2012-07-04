@@ -14,13 +14,11 @@ See the example app.  The controller looks like this:
 <code class="javascript">
 angular.module('exampleApp', ['ssAngular'])
   .controller('SSCtrl',function($scope,pubsub) {
-        pubsub($scope);
-
-            $scope.messages = []
-                $scope.$on('ss-example', function(event,msg) {
-                        $scope.messages.push(msg);
-                            });
-                  });
+    $scope.messages = []
+      $scope.$on('ss-example', function(event,msg) {
+        $scope.messages.push(msg);
+      });
+    });
 </code>
 </pre>
 

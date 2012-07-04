@@ -7,7 +7,7 @@ exports.actions = function(req,res,ss) {
           var message = 'Message from space: ' + buf;
           ss.publish.all('ss-example', message);
         });
-      }, 1000);
+      }, 3000);
     }
   };
 }
