@@ -8,6 +8,7 @@
   <body ng-app="exampleApp">
     <h3>This list is created by the server and pushed to angular!</h3>
     <div ng-controller="SSCtrl">
+      <button class="btn" data-toggle="button" ng-click="toggleData()">Listen to Aliens</button>
       <ul>
         <li ng-repeat="message in messages">
           {{message}}
