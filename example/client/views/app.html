@@ -8,7 +8,19 @@
   <body ng-app="exampleApp">
     <h3>This list is created by the server and pushed to angular!</h3>
     <div ng-controller="SSCtrl">
-      <button class="btn" data-toggle="button" ng-click="toggleData()">Listen to Aliens</button>
+      <table>
+        <tr>
+          <td>
+            <button class="btn" data-toggle="button" ng-click="toggleData()">Listen to Aliens</button>
+            </td>
+          <td>
+            <h3>{{$scope.streaming}}</h3>
+          </td>
+          <td>
+            <h3>{{$scope.intervalId}}</h3>
+          </td>
+        </tr>
+      </table>
       <ul>
         <li ng-repeat="message in messages">
           {{message}}
