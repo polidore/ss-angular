@@ -15,6 +15,7 @@ angular.module('exampleApp', ['ssAngular'])
       }
       else {
         $scope.streaming = false;
+        $scope.messages = [];
         $scope.status = rpc('example.off', 'Too random');
       }
     };
