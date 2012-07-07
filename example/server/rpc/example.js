@@ -1,19 +1,23 @@
 exports.actions = function(req,res,ss) {
   var crypto = require('crypto');
+  var intervalId = {};
 
   return {
     on: function() {
-      var intervalId = setInterval(function() {
+      intervalId = setInterval(function() {
         crypto.randomBytes(16, function(ex,buf) {
           var message = 'Message from space: ' + buf;
           ss.publish.all('ss-example', message);
         });
       }, 3000);
-      res(42); //intervalId is a complex object. great.
+      console.log("Interval Id: %s", intervalId);
+      res("Receiving SpaceMail"); 
     },
-    off: function(intervalId) {
-      console.log("Received intervalId: %s", intervalId);
+    off: function(reason) {
+      console.log("Received reason: %s", reason);
+      console.log("Interval Id: %s", intervalId);
       clearInterval(intervalId);
+      res("Ignoring SpaceMail");
     }
   };
 }

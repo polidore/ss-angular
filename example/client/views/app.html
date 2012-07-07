@@ -6,26 +6,32 @@
     <title>Angular Example</title>
   </head>
   <body ng-app="exampleApp">
-    <h3>This list is created by the server and pushed to angular!</h3>
+    <div class="row">
+      <div class="span12">
+        <h3>This list is created by the server and pushed to angular!</h3>
+      </div>
+    </div>
     <div ng-controller="SSCtrl">
-      <table>
-        <tr>
-          <td>
-            <button class="btn" data-toggle="button" ng-click="toggleData()">Listen to Aliens</button>
-            </td>
-          <td>
-            <h3>{{streaming}}</h3>
-          </td>
-          <td>
-            <h3>{{intervalId}}</h3>
-          </td>
-        </tr>
-      </table>
-      <ul>
-        <li ng-repeat="message in messages">
-          {{message}}
-        </li>
-      </ul>
+      <div class="row">
+        <div class="span4">
+          <button class="btn" data-toggle="button" ng-click="toggleData()">Listen to Aliens</button>
+        </div>
+        <div class="span4">
+          <h3>Streaming: {{streaming}}</h3>
+        </div>
+        <div class="span4">
+          <h3>Status: {{status}}</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span12">
+          <ul>
+            <li ng-repeat="message in messages">
+              {{message}}
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </body>
 </html>
