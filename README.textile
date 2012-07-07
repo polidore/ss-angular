@@ -22,11 +22,6 @@ angular.module('exampleApp', ['ssAngular'])
 </code>
 </pre>
 
-h2. Running Example
-
-* cd to the example dir and run @npm install@
-* make sure the symlink in example/client/code/lib to the library is working. on windows, i had to fix it after pulling.
-
 h1. RPC
 
 This will be handled with the promise API in angular ($q).  You just assign a $scope object to an rpc call, and the value will be assigned when the rpc returns.  You don't use a callback.  For example:
@@ -54,3 +49,7 @@ angular.module('exampleApp', ['ssAngular'])
 
 Here we're assigning $scope.status to the return value of the services we've defined. As you can see, you can pass params or not, but you can't define a callback.  If you really need a callback, just call socketstream directly!
 
+h1. Running Example
+
+* cd to the example dir and run @npm install@
+* make sure the symlink in example/client/code/lib to the library is working. on windows, i had to fix it after pulling.
