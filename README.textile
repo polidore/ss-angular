@@ -24,7 +24,7 @@ angular.module('exampleApp', ['ssAngular'])
 
 h1. RPC
 
-This will be handled with the promise API in angular ($q).  You just assign a $scope object to an rpc call, and the value will be assigned when the rpc returns.  You don't use a callback.  For example:
+This is handled with the promise API in angular ($q).  You just assign a rpc call to a $scope object, and the value will be assigned when the rpc returns and the GUI updated.  You don't use a callback.  For example:
 
 <pre>
 <code class="javascript">
