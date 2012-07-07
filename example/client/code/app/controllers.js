@@ -5,7 +5,9 @@ angular.module('exampleApp', ['ssAngular'])
     $scope.status = "";
 
     $scope.$on('ss-example', function(event,msg) {
-      $scope.messages.push(msg);
+      if($scope.streaming) { // shouldn't have to do this, but can't get RPC to save state.
+        $scope.messages.push(msg);
+      }
     });
 
     $scope.toggleData = function() {
