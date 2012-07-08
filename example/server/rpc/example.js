@@ -1,7 +1,7 @@
-exports.actions = function(req,res,ss) {
-  var crypto = require('crypto');
-  var intervalId = {};
+var intervalId = {};
+var crypto = require('crypto');
 
+exports.actions = function(req,res,ss) {
   return {
     on: function() {
       intervalId = setInterval(function() {
@@ -10,12 +10,10 @@ exports.actions = function(req,res,ss) {
           ss.publish.all('ss-example', message);
         });
       }, 3000);
-      console.log("Interval Id: %s", intervalId);
       res("Receiving SpaceMail"); 
     },
     off: function(reason) {
       console.log("Received reason: %s", reason);
-      console.log("Interval Id: %s", intervalId);
       clearInterval(intervalId);
       res("Ignoring SpaceMail");
     }
