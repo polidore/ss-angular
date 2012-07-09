@@ -8,19 +8,58 @@
   <body ng-app="exampleApp">
     <div class="row">
       <div class="span12">
-        <h3>This list is created by the server and pushed to angular!</h3>
+        <div class="hero-unit">
+          <h1>SS-Angular Test App</h1>
+          <p>A test application that integrates SocketStream into AngularJS</p>
+        </div>
       </div>
     </div>
     <div ng-controller="SSCtrl">
       <div class="row">
-        <div class="span4">
-          <button class="btn btn-primary" data-toggle="button" ng-click="toggleData()">Listen to Aliens</button>
+        <div class="span4 offset4">
+          <h3><a
+              href="#"
+              rel="tooltip"
+              title="Just an angular data bind">
+              Streaming (from angular)</a></h3>
         </div>
         <div class="span4">
-          <h3>Streaming: {{streaming}}</h3>
+          <h3>
+            <a
+              href="#"
+              rel="tooltip"
+              title="This data is the return value of a SocketStream RPC call">
+              Status (from rpc)</a></h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span4">
+          <a 
+            href="#"
+            class="btn btn-primary" 
+            data-toggle="button" 
+            rel="popover"
+            title="SS-Angular"
+            data-content="When you click this button, this app will tell the server to start pushing events through the pubsub channel that it is already subscribing too.  After two seconds, the server will reply with a status, which will get drawn to the right. Then, every 3 seconds, the server will push 16 bytes of crypto data below. Enjoy!" 
+            ng-click="toggleData()">
+            Listen to Aliens</a>
         </div>
         <div class="span4">
-          <h3>Status: {{status}}</h3>
+          {{streaming}}
+        </div>
+        <div class="span4">
+          {{status}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="span12">
+          <h5><a
+              href="#"
+              rel="tooltip"
+              id="messagesTT"
+              placement="right"
+              title="This is data from a SocketStream pubsub session">
+              Messages</a></h5>
         </div>
       </div>
       <div class="row">
