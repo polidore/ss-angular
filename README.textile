@@ -60,4 +60,4 @@ Creates a read only model.  A model in this context is a complex object that is 
 
 h2. Why is it read only?  
 
-The main reason is that it's not necessary for my application!  Changes can be applied to the server just fine via RPC.  Also, there are other libraries out there for a two way synched model (Racer of Derby fame and ShareJS), and I'm not trying to reimplement them.  That said, I can envision a methodology where diffs are sent to server, applied and retransmitted back to the client.  
+The main reason is that it's not necessary for my application!  Changes can be applied to the server orthogonally via RPC for my problem domain.  Also, there are other libraries out there for a two way synched model (Racer of Derby fame and ShareJS), and I'm not trying to reimplement them.  That said, I can envision a methodology where diffs are sent to server, applied and retransmitted back to the client.  

@@ -6,7 +6,7 @@ var http = require('http')
 // Define a single-page client
 ss.client.define('main', {
   view: 'app.html',
-  css:  ['libs', 'app.styl'],
+  css:  ['libs', 'app.less'],
   code: ['libs', 'app'], //requires you to make a symlink from ../lib to libs
   tmpl: '*'
 });
@@ -17,7 +17,7 @@ ss.http.route('/', function(req, res){
 })
 
 // Code Formatters
-ss.client.formatters.add(require('ss-stylus'));
+ss.client.formatters.add(require('ss-less'));
 
 // Minimize and pack assets if you type: SS_ENV=production node app.js
 if (ss.env == 'production') ss.client.packAssets();
