@@ -10,12 +10,16 @@ exports.actions = function(req,res,ss) {
           ss.publish.all('ss-example', message);
         });
       }, 3000);
-      res("Receiving SpaceMail"); 
+      setTimeout(function() {
+        res("Receiving SpaceMail"); 
+      }, 2000);
     },
     off: function(reason) {
       console.log("Received reason: %s", reason);
       clearInterval(intervalId);
-      res("Ignoring SpaceMail");
+      setTimeout(function() {
+        res("Ignoring SpaceMail");
+      }, 2000);
     }
   };
 }
