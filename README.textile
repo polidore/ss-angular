@@ -2,6 +2,11 @@ h1. Approach
 
 Create an angular service that can be injected into controllers similar to the angular REST resource library.
 
+h1. Running Example
+
+* cd to the example dir and run @npm install@
+* make sure the symlink in example/client/code/lib to the library is working. on windows, i had to fix it after pulling.
+
 h1. Pub Sub
 
 Once you have injected this module into your app and the pubsub service into your scope, you can simply create subscriptions to scope events using angular's API, and if they are prefixed with ss-, this library will subscribe for events from scoket stream with the same name.  When socketstream pushes events, they will be wrapped into Angular scope events on the appropriate scope. 
@@ -49,7 +54,10 @@ angular.module('exampleApp', ['ssAngular'])
 
 Here we're assigning the return value of the socketstream services we've defined to $scope.status directly. As you can see, you can pass params or not, but you can't define a callback.  If you really need a callback, just call socketstream directly!
 
-h1. Running Example
+h1. Model
 
-* cd to the example dir and run @npm install@
-* make sure the symlink in example/client/code/lib to the library is working. on windows, i had to fix it after pulling.
+Creates a read only model.  A model in this context is a complex object that is updated by the server and communicated to the client.  The data is communicated incrementally via a pubsub channel after a snapshot is delivered on the rpc channel.  There is always a sequence number on the model so if a diff is received out of order, it is held until gaps are filled and then applied in order.  The goal is to synchronize a potentially very large model between client and server without retransmitting the whole object each time a single field changes.
+
+h2. Why is it read only?  
+
+The main reason is that it's not necessary for my application!  Changes can be applied to the server just fine via RPC.  Also, there are other libraries out there for a two way synched model (Racer of Derby fame and ShareJS), and I'm not trying to reimplement them.  That said, I can envision a methodology where diffs are sent to server, applied and retransmitted back to the client.  
