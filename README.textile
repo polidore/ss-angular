@@ -62,20 +62,20 @@ h2. Protocol Details
 
 h3. Server
 
-* Model is made up of:
-** name
-*** String that will be matched with against a client request
-** query
-*** Currently fairly coupled to MongoDB due to my problem domain.
-** pollingFreq
-** baselineID
-*** UUID for each poll to DB
-** listeners
-*** map: (offset,subscriber)[baselineID]
-*** offset: number of updates since a given baseline. Increases monotonically and only when there is a diff 
-*** subscriber: function that takes care of delivering update
-** content
-*** The object that is diffed against query results
+*Model Class*
+* name
+** String that will be matched with against a client request
+* query
+** Currently fairly coupled to MongoDB due to my problem domain.
+* pollingFreq
+* baselineID
+** UUID for each poll to DB
+* listeners
+** map: (offset,subscriber)[baselineID]
+** offset: number of updates since a given baseline. Increases monotonically and only when there is a diff 
+** subscriber: function that takes care of delivering update
+* content
+** The object that is diffed against query results
 
 h4. Server Algorithm
 
