@@ -62,7 +62,8 @@ h2. Protocol Details
 
 h3. Server
 
-*Model Class*
+h4. Model Class
+
 * name
 ** String that will be matched with against a client request
 * query
@@ -74,18 +75,23 @@ h3. Server
 ** map: (offset,subscriber)[baselineID]
 ** offset: number of updates since a given baseline. Increases monotonically and only when there is a diff 
 ** subscriber: function that takes care of delivering update
+** This can potentially be maintained in a middleware
 * content
 ** The object that is diffed against query results
 
 h4. Server Algorithm
 
-*Event Loop*
+h5. Event Loop
+
 # Query database every _pollingFreq_ seconds
-# Diff results against _content_
+# Diff results against _content_ to create a delta
+# Apply the delta to the baseline
+** Probably do this as the delta is being created rather than a separate step
 # Iterate through listeners
 # For each that exists, increment _seqNum_ and notify of the update on _subscriber_ channel
 
-*Request Process*
+h5. Request Process
+
 # Client requests baseline via RPC
 # Confirmation is delivered through RPC channel
 # Baseline is delivered via pubsub channel called @ss-model-modelName@
@@ -97,7 +103,25 @@ h4. Server Algorithm
 
 h3. Client
 
+h4. Model Class
 
+* name
+* baselineID
+* seqNum
+* content
+
+h4. Client Algorithm
+
+# Subscribe for model updates on a pubsub channel
+** Most likely a session channel
+# Request data for that model via RPC
+# Await baseline
+# As deltas come in, modify the baseline
+
+h5. Self Healing
+
+# Any time a baseline comes in from the server, take it and destroy old content and baselineID
+# If a seqNum is out of order, request a new baseline
 
 h2. Why is it read only?  
 
