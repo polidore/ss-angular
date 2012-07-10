@@ -58,6 +58,47 @@ h1. Model
 
 Creates a read only model.  A model in this context is a complex object that is updated by the server and communicated to the client.  The data is communicated incrementally via a pubsub channel after a snapshot is delivered on the rpc channel.  There is always a sequence number on the model so if a diff is received out of order, it is held until gaps are filled and then applied in order.  The goal is to synchronize a potentially very large model between client and server without retransmitting the whole object each time a single field changes.
 
+h2. Protocol Details
+
+h3. Server
+
+* Model is made up of:
+** name
+*** String that will be matched with against a client request
+** query
+*** Currently fairly coupled to MongoDB due to my problem domain.
+** pollingFreq
+** baselineID
+*** UUID for each poll to DB
+** listeners
+*** map: (offset,subscriber)[baselineID]
+*** offset: number of updates since a given baseline. Increases monotonically and only when there is a diff 
+*** subscriber: function that takes care of delivering update
+** content
+*** The object that is diffed against query results
+
+h4. Server Algorithm
+
+*Event Loop*
+# Query database every _pollingFreq_ seconds
+# Diff results against _content_
+# Iterate through listeners
+# For each that exists, increment _seqNum_ and notify of the update on _subscriber_ channel
+
+*Request Process*
+# Client requests baseline via RPC
+# Confirmation is delivered through RPC channel
+# Baseline is delivered via pubsub channel called @ss-model-modelName@
+** JSON string
+# Deltas come through the same pubsub channel
+** JSON string
+** Putting both baseline and deltas through same pubsub channel ensures synchronization
+# Each delta will include its baseline and offset
+
+h3. Client
+
+
+
 h2. Why is it read only?  
 
 The main reason is that it's not necessary for my application!  Changes can be applied to the server orthogonally via RPC for my problem domain.  Also, there are other libraries out there for a two way synched model (Racer of Derby fame and ShareJS), and I'm not trying to reimplement them.  That said, I can envision a methodology where diffs are sent to server, applied and retransmitted back to the client.  
