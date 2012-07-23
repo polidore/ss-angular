@@ -19,6 +19,9 @@ ss.http.route('/', function(req, res){
 // Code Formatters
 ss.client.formatters.add(require('ss-less'));
 
+//responders
+ss.responders.add(require('ss-angular'));
+
 // Minimize and pack assets if you type: SS_ENV=production node app.js
 if (ss.env == 'production') ss.client.packAssets();
 
