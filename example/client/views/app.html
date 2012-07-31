@@ -16,7 +16,17 @@
     </div>
     <div ng-controller="SSCtrl">
       <div class="row">
-        <div class="span4 offset4">
+        <div class="span4">
+          <a 
+            href="#"
+            class="btn btn-primary" 
+            data-toggle="button" 
+            rel="popover"
+            title="SS-Angular"
+            data-content="When you click this button, the app will: <ol><li>Tell the server to start pushing events through the pubsub channel to which it is already subscribed</li> <li>After two seconds, the server will reply with a status, which will get drawn to the right</li> <li>Then, every 3 seconds, the server will push 16 bytes of crypto data below.</li></ol>Enjoy!" 
+            ng-click="toggleData()">Listen to Aliens</a>
+        </div>
+        <div class="span4">
           <h3><a
               href="#"
               rel="tooltip"
@@ -31,17 +41,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="span4">
-          <a 
-            href="#"
-            class="btn btn-primary" 
-            data-toggle="button" 
-            rel="popover"
-            title="SS-Angular"
-            data-content="When you click this button, the app will: <ol><li>Tell the server to start pushing events through the pubsub channel to which it is already subscribed</li> <li>After two seconds, the server will reply with a status, which will get drawn to the right</li> <li>Then, every 3 seconds, the server will push 16 bytes of crypto data below.</li></ol>Enjoy!" 
-            ng-click="toggleData()">Listen to Aliens</a>
-        </div>
-        <div class="span4">
+        <div class="span4 offset4">
           {{streaming}}
         </div>
         <div class="span4">
@@ -49,17 +49,38 @@
         </div>
       </div>
       <div class="row">
-        <div class="span12">
-          <h5><a
+        <div class="span4">
+          <h4><a
+              href="#"
+              rel="tooltipRight"
+              title="This is an incrementally synced model!">
+              Synced Model</a></h4>
+        </div>
+        <div class="span8">
+          <h4><a
               href="#"
               rel="tooltip"
-              id="messagesTT"
-              placement="right"
-              title="This is data from a SocketStream pubsub session">Messages</a></h5>
+              title="This is data from a SocketStream pubsub session">Messages</a></h4>
         </div>
       </div>
       <div class="row">
-        <div class="span12">
+        <div class="span4">
+          <table>
+            <thead>
+              <tr>
+                <th>Model Timestamp</th>
+                <th>Model value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{testModel.timeStamp}}</td>
+                <td>{{testModel.a}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="span8">
           <ul>
             <li ng-repeat="message in messages">
               {{message}}

@@ -1,5 +1,5 @@
 angular.module('exampleApp', ['ssAngular'])
-  .controller('SSCtrl',function($scope,pubsub,rpc) {
+  .controller('SSCtrl',function($scope,pubsub,rpc,syncModel) {
     $scope.messages = []
     $scope.streaming = false;
     $scope.status = "";
@@ -19,4 +19,6 @@ angular.module('exampleApp', ['ssAngular'])
         $scope.status = rpc('example.off', 'Too random');
       }
     };
+
+    syncModel('testModel'); //this creates $scope.testModel and updates it
   });
