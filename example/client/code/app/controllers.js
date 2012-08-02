@@ -20,5 +20,5 @@ angular.module('exampleApp', ['ssAngular'])
       }
     };
 
-    syncModel('testModel'); //this creates $scope.testModel and updates it
+    syncModel('example'); //this creates $scope.example and updates it
   });

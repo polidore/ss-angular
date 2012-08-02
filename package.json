@@ -12,6 +12,7 @@
     "node": ">= 0.8.0"
   },
   "dependencies": {
+    "apitree": "= 1.1.0"
   },
   "devDependencies": {
   }
