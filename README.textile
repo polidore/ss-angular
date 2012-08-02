@@ -24,6 +24,7 @@ ss.responders.add(require('ss-angular'));
 This will install the backend request responder, and inject the client library for models specifically and some other wrappers around existing SocketStream features for use in AngularJS.
 
 Add the following to your @client/code/app/entry.js@ above the @ss.server.on@ line
+
 <pre>
 require('ssAngular');
 require('/controllers');
@@ -120,7 +121,7 @@ exports.make = function(des,chan,ss) {
 
 h2. Client
 
-This library does expose a raw ss API called @linkModel@.  You just pass it the model name and it passes you back and object ever N seconds.  From the ss-angular client library:
+This library does expose a raw ss API called @linkModel@.  You just pass it the model name and it passes you back an object every N seconds.  From the ss-angular client library:
 
 
 <pre>
@@ -169,3 +170,7 @@ It's that simple.  You define your app's module, the ssAngular dependency and th
 </pre>
 
 The data in curly brackets will be automatically updated.  The link is created by simply mentioning example in the @syncModel@ command.
+
+h1. License
+
+ss-angular is released under the MIT license.
