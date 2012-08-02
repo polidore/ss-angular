@@ -4,7 +4,7 @@ Create an angular service that can be injected into controllers similar to the a
 
 h1. Installing
 
-* Create a new angular app
+* Create a new socketstream app
 * Edit its package.json to add @ss-angular@ as a dependency:
 
 <pre>
@@ -14,6 +14,7 @@ h1. Installing
 }
 </pre>
 
+* run @npm install@
 * Reference the ss-angular request responder in your app.js:
 
 <pre>
