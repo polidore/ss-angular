@@ -133,7 +133,7 @@ angular.module('exampleApp', ['ssAngular'])
 </code>
 </pre>
 
-It's that simple.  You define your app's module, the ssAngular dependency and then inject syncModel into your controller's dependencies.  In this case, examlple is the name of the file I created in @server/model@ and it will be the name of the model on angular's $scope. Here's the html that uses this controller:
+It's that simple.  You define your app's module, the ssAngular dependency and then inject syncModel into your controller's dependencies.  In this case, example is the name of the file I created in @server/model@ and it will be the name of the model on angular's $scope. Here's the html that uses this controller:
 
 
 
@@ -159,4 +159,4 @@ It's that simple.  You define your app's module, the ssAngular dependency and th
 </code>
 </pre>
 
-The data in curly brackets will be automatically updated.  The link is created by simply mentioning example in the syncModel command.
+The data in curly brackets will be automatically updated.  The link is created by simply mentioning example in the @syncModel@ command.
