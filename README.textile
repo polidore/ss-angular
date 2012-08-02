@@ -2,10 +2,29 @@ h1. Approach
 
 Create an angular service that can be injected into controllers similar to the angular REST resource library.
 
+h1. Installing
+
+* Create a new angular app
+* Edit its package.json to add @ss-angular@ as a dependency:
+
+<pre>
+"dependencies": {
+  "socketstream": "0.3.x",
+  "ss-angular": "0.x.x"
+}
+</pre>
+
+* Reference the ss-angular request responder in your app.js:
+
+<pre>
+ss.responders.add(require('ss-angular'));
+</pre>
+
+This will install the backend request responder, and inject the client library for models specifically and some other wrappers around existing SocketStream features for use in AngularJS.
+
 h1. Running Example
 
-* cd to the example dir and run @npm install@
-* make sure the symlink in example/client/code/lib to the library is working. on windows, i had to fix it after pulling.
+If you clone this repo, there is an example.  To run it, just cd to the example dir and run @npm install@
 
 h1. Pub Sub
 
