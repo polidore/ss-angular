@@ -32,6 +32,8 @@ require('/controllers');
 
 Then define your angular controllres in @client/code/app/controllers.js@
 
+You also have to make sure that you have angular.js in your @client/code/lib@
+
 h1. Running Example
 
 If you clone this repo, there is an example.  To run it, just cd to the example dir and run @npm install@
