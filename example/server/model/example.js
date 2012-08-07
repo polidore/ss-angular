@@ -12,7 +12,7 @@ exports.make = function(des,chan,ss) {
       var obj = {
         hasBall: names[Math.floor(Math.random()*3-0.001)],
         leadingBy: Math.floor(Math.random()*100),
-        serverTime: Date.now()
+        serverTime: Date.now(),
         preferredName: p.name
       };
       chan(obj);

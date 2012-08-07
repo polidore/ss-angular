@@ -1,5 +1,5 @@
 angular.module('exampleApp', ['ssAngular'])
-  .controller('SSCtrl',function($scope,pubsub,rpc,linkModel, unlinkModel) {
+  .controller('SSCtrl',function($scope,pubsub,rpc,model) {
     $scope.messages = []
     $scope.streaming = false;
     $scope.status = "";
@@ -12,13 +12,13 @@ angular.module('exampleApp', ['ssAngular'])
       if(!$scope.streaming) {
         $scope.streaming = true;
         $scope.status = rpc('example.on');
-        linkModel('example', {name: 'Tom'});
+        $scope.linkModel('example', {name: 'Tom'});
       }
       else {
         $scope.streaming = false;
         $scope.messages = [];
         $scope.status = rpc('example.off', 'Too random');
-        unlinkModel('example', {name: 'Tom'});
+        $scope.unlinkModel('example', {name: 'Tom'});
       }
     };
   });
