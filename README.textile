@@ -38,6 +38,94 @@ h1. Running Example
 
 If you clone this repo, there is an example.  To run it, just cd to the example dir and run @npm install@
 
+h1. Model
+
+This is the real value of this library.  If you declare a model in @server/model@, ss-angular will poll it every @pollFreq@ seconds and push deltas to the client.  This is a read-only mechanism.  In the near future, updates will be incremental, but as of version 0.4, it just pushes the entire object on each update whether it has changed or not.  
+
+It's implemented as a request responder, and it is similar to SocketStream's rpc library.  It supports middleware in the same manner as rpc as well.
+
+h2. Server
+
+Define a model in the @server/model@ directory. I called this one example.js:
+
+<pre>
+<code class="javascript">
+//des describes the model and has the middleware
+//chan is a channel on which to post the updated model object
+
+var names = ['Tom','Dick','Harry'];
+
+exports.make = function(des,chan,ss) {
+  //des.use if middleware required
+  
+  return {
+    //must have a poll function for now. may have other update models
+    poll: function(where) { //where is a JSON where clause
+      var obj = {
+        hasBall: names[Math.floor(Math.random()*3-0.001)],
+        leadingBy: Math.floor(Math.random()*100),
+        serverTime: Date.now(),
+        filter: where //silly
+      };
+      chan(obj);
+    }
+  };
+};
+</code>
+</pre>
+
+h2. Client
+
+This library does expose a raw ss API called @linkModel@ and @unlinkModel@.  You just pass it the model name and parameters and it passes you back an object every N seconds.  From the ss-angular client library:
+
+<pre>
+<code class="javascript">
+ss.linkModel(name, params, function(modelObj) {
+    scope[name] = modelObj;
+});
+</code>
+</pre>
+
+But it's much more fun if you use it via angular! I've exposed a new API in the ssAngular module, and you can use it in angular controllers like this: 
+
+<pre>
+<code class="javascript">
+angular.module('exampleApp', ['ssAngular'])
+  .controller('SSCtrl',function($scope,model) {
+    $scope.syncModel('example',{id: 1234}); //this creates $scope.example and updates it with data in the example model filtered by id 1234
+  });
+</code>
+</pre>
+
+It's that simple.  You define your app's module, the ssAngular dependency and then inject model into your controller's dependencies.  In this case, example is the name of the file I created in @server/model@ and it will be the name of the model on angular's $scope. Here's the html that uses this controller:
+
+
+<pre>
+<code class="html">
+<table>
+  <thead>
+    <tr>
+      <th>Has Ball</th>
+      <th>Leading By</th>
+      <th>Server Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{example.hasBall}}</td>
+      <td>{{example.leadingBy}}</td>
+      <td>{{example.serverTime}}</td>
+    </tr>
+  </tbody>
+</table>
+
+</code>
+</pre>
+
+The data in curly brackets will be automatically updated.  The link is created by simply mentioning example in the @syncModel@ command.
+
+Important note: you can only subscribe to a named model once in a given scope, even if you use a different where clause.  The idea here is that scopes are fairly narrow, and I'd prefer to refer to the model data without the where clause for simplicity.  If I allow multiple subscriptions to the same model with different where clauses in the same scope, then I have to make you refer to the model by @name/where@ and that's ugly in the HTML.  Just create a lot of scopes and keep your model context broad enough that it "fills" a scope.
+
 h1. Pub Sub
 
 Once you have injected this module into your app and the pubsub service into your scope, you can simply create subscriptions to scope events using angular's API, and if they are prefixed with ss-, this library will subscribe for events from scoket stream with the same name.  When socketstream pushes events, they will be wrapped into Angular scope events on the appropriate scope. 
@@ -85,93 +173,6 @@ angular.module('exampleApp', ['ssAngular'])
 
 Here we're assigning the return value of the socketstream services we've defined to $scope.status directly. As you can see, you can pass params or not, but you can't define a callback.  If you really need a callback, just call socketstream directly!
 
-h1. Model
-
-This is the real value of this library.  If you declare a model in @server/model@, ss-angular will poll it every @pollFreq@ seconds and push deltas to the client.  This is a read-only mechanism.  In the near future, updates will be incremental, but as of version 0.4, it just pushes the entire object on each update whether it has changed or not.  
-
-It's implemented as a request responder, and it is similar to SocketStream's rpc library.  It supports middleware in the same manner as rpc as well.
-
-
-h2. Server
-
-Define a model in the @server/model@ directory. I called this one example.js:
-
-<pre>
-<code class="javascript">
-//des describes the model and has the middleware
-//chan is a channel on which to post the updated model object
-
-var names = ['Tom','Dick','Harry'];
-
-exports.make = function(des,chan,ss) {
-  //des.use if middleware required
-  
-  return {
-    //must have a poll function for now. may have other update models
-    poll: function() {
-      var obj = {
-        hasBall: names[Math.floor(Math.random()*3-0.001)],
-        leadingBy: Math.floor(Math.random()*100),
-        serverTime: Date.now()
-      };
-      chan(obj);
-    }
-  };
-};
-</code>
-</pre>
-
-h2. Client
-
-This library does expose a raw ss API called @linkModel@.  You just pass it the model name and it passes you back an object every N seconds.  From the ss-angular client library:
-
-
-<pre>
-<code class="javascript">
-ss.linkModel(name, function(modelObj) {
-    scope[name] = modelObj;
-});
-</code>
-</pre>
-
-But it's much more fun if you use it via angular! I've exposed a new API in the ssAngular module, and you can use it in angular controllers like this: 
-
-<pre>
-<code class="javascript">
-angular.module('exampleApp', ['ssAngular'])
-  .controller('SSCtrl',function($scope,syncModel) {
-    syncModel('example'); //this creates $scope.example and updates it
-  });
-</code>
-</pre>
-
-It's that simple.  You define your app's module, the ssAngular dependency and then inject syncModel into your controller's dependencies.  In this case, example is the name of the file I created in @server/model@ and it will be the name of the model on angular's $scope. Here's the html that uses this controller:
-
-
-
-<pre>
-<code class="html">
-<table>
-  <thead>
-    <tr>
-      <th>Has Ball</th>
-      <th>Leading By</th>
-      <th>Server Time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>{{example.hasBall}}</td>
-      <td>{{example.leadingBy}}</td>
-      <td>{{example.serverTime}}</td>
-    </tr>
-  </tbody>
-</table>
-
-</code>
-</pre>
-
-The data in curly brackets will be automatically updated.  The link is created by simply mentioning example in the @syncModel@ command.
 
 h1. License
 
