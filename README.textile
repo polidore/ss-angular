@@ -92,7 +92,7 @@ But it's much more fun if you use it via angular! I've exposed a new API in the 
 <code class="javascript">
 angular.module('exampleApp', ['ssAngular'])
   .controller('SSCtrl',function($scope,model) {
-    $scope.syncModel('example',{id: 1234}); //this creates $scope.example and updates it with data in the example model filtered by id 1234
+    $scope.linkModel('example',{id: 1234}); //this creates $scope.example and updates it with data in the example model filtered by id 1234
   });
 </code>
 </pre>
@@ -122,9 +122,11 @@ It's that simple.  You define your app's module, the ssAngular dependency and th
 </code>
 </pre>
 
-The data in curly brackets will be automatically updated.  The link is created by simply mentioning example in the @syncModel@ command.
+The data in curly brackets will be automatically updated.  The link is created by simply mentioning example in the @linkModel@ command.
 
 Important note: you can only subscribe to a named model once in a given scope, even if you use a different where clause.  The idea here is that scopes are fairly narrow, and I'd prefer to refer to the model data without the where clause for simplicity.  If I allow multiple subscriptions to the same model with different where clauses in the same scope, then I have to make you refer to the model by @name/where@ and that's ugly in the HTML.  Just create a lot of scopes and keep your model context broad enough that it "fills" a scope.
+
+One important note: you should @$scope.unlinkModel@ when your scope is destroyed.
 
 h1. Pub Sub
 
