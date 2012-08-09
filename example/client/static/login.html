@@ -1,0 +1,10 @@
+<div ng-controller="AuthCtrl">
+  <form class="well">
+    <label>Username</label>
+    <input type="text" name="user" ng-model="user" required>
+    <label>Password</label>
+    <input type="password" name="password" ng-model="password" required>
+    <button type="submit" class="btn" ng-click="processAuth()">Sign in</button>
+  </form>
+  <span class="label label-important" ng-show="showError">{{errorMsg}}</span>
+</div>

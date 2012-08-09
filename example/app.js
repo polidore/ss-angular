@@ -5,7 +5,7 @@ var http = require('http'),
 
 // Define a single-page client
 ss.client.define('main', {
-  view: 'app.html',
+  view: 'index.html',
   css:  ['libs', 'app.less'],
   code: ['libs', 'app'], //requires you to make a symlink from ../lib to libs
   tmpl: '*'
