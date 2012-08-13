@@ -11,6 +11,8 @@ ss.client.define('main', {
   tmpl: '*'
 });
 
+ss.session.options.maxAge = 2.6*Math.pow(10,9);
+
 // Serve this client on the root URL
 ss.http.route('/', function(req, res){
   res.serveClient('main');
