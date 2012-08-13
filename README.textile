@@ -126,7 +126,19 @@ The data in curly brackets will be automatically updated.  The link is created b
 
 Important note: you can only subscribe to a named model once in a given scope, even if you use a different where clause.  The idea here is that scopes are fairly narrow, and I'd prefer to refer to the model data without the where clause for simplicity.  If I allow multiple subscriptions to the same model with different where clauses in the same scope, then I have to make you refer to the model by @name/where@ and that's ugly in the HTML.  Just create a lot of scopes and keep your model context broad enough that it "fills" a scope.
 
-One important note: you should @$scope.unlinkModel@ when your scope is destroyed.
+The library will automatically unsubscribe from your model when the scope that created it is destroyed.
+
+h1. Authentication
+
+Angular doesn't have great support for authentication.  I added a few nice things that you can use to integrate with the sessions functionality in socket stream.  This logic works nicely with the angular @$routeProvider@. 
+
+h2. Client
+
+Define your routes and backend authentication service module:
+
+```javascript
+var a
+```
 
 h1. Pub Sub
 
