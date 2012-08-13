@@ -1,13 +1,15 @@
 angular.module('exampleApp', ['ssAngular'])
   .config(function(authProvider,$routeProvider,$locationProvider) {
     authProvider.authServiceModule('example');
+    authProvider.loginPath('/login');
     $routeProvider.
-      when('/', {controller:'AuthCtrl', templateUrl:'login.html'}).
+      when('/login', {controller:'AuthCtrl', templateUrl:'login.html'}).
       when('/app', {controller:'SSCtrl', templateUrl:'app.html'}).
-      otherwise({redirectTo:'/'});
+      otherwise({redirectTo:'/app'});
     $locationProvider.html5Mode(true);
   })
-  .controller('SSCtrl',function($scope,$location,pubsub,rpc,model,auth) {
+  .controller('SSCtrl',function($scope,$location,pubsub,rpc,model,auth,session) {
+    $scope.authenticated = session.authenticated;
     $scope.messages = []
     $scope.streaming = false;
     $scope.status = "";
@@ -29,6 +31,12 @@ angular.module('exampleApp', ['ssAngular'])
         $scope.unlinkModel('example', {name: 'Tom'});
       }
     };
+
+    $scope.$on('$destroy', function() {
+      if($scope.streaming) {
+        rpc('example.off', 'Navigated away');
+      }
+    });
 
     $scope.logout = function() {
       var promise = auth.logout();
