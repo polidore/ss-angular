@@ -15,7 +15,7 @@ exports.actions = function(req,res,ss) {
       setTimeout(function() {
         res("Receiving SpaceMail"); 
       }, 2000);
-      console.log("session data: " + req.session);
+      console.log("session data: " + JSON.stringify(req.session));
     },
     off: function(reason) {
       console.log("Received reason: %s", reason);
@@ -33,6 +33,14 @@ exports.actions = function(req,res,ss) {
       }
       else {
         ss.log("Access denied! The password is user/pass");
+        res(false);
+      }
+    },
+    authenticated: function() {
+      if(req.session.userId) {
+        res(true);
+      }
+      else {
         res(false);
       }
     },

@@ -8,8 +8,7 @@ angular.module('exampleApp', ['ssAngular'])
       otherwise({redirectTo:'/app'});
     $locationProvider.html5Mode(true);
   })
-  .controller('SSCtrl',function($scope,$location,pubsub,rpc,model,auth,session) {
-    $scope.authenticated = session.authenticated;
+  .controller('SSCtrl',function($scope,$location,pubsub,rpc,model,auth) {
     $scope.messages = []
     $scope.streaming = false;
     $scope.status = "";
