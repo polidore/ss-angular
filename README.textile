@@ -136,9 +136,57 @@ h2. Client
 
 Define your routes and backend authentication service module:
 
-```javascript
-var a
-```
+<pre>
+<code class="javascript">
+angular.module('exampleApp', ['ssAngular'])
+  .config(function(authProvider,$routeProvider,$locationProvider) {
+    authProvider.authServiceModule('example');
+    authProvider.loginPath('/login');
+    $routeProvider.
+      when('/login', {controller:'AuthCtrl', templateUrl:'login.html'}).
+      when('/app', {controller:'SSCtrl', templateUrl:'app.html'}).
+      otherwise({redirectTo:'/app'});
+    $locationProvider.html5Mode(true);
+  })
+</code>
+</pre>
+
+The login path is the path that users should be redirected to if they are not logged in.
+
+Use the auth.authenticate and auth.logout functions:
+
+<pre>
+<code class="javascript">
+  .controller('AuthCtrl',function($scope, $location, $log, auth) {
+    $scope.processAuth = function() {
+      $scope.showError = false;
+      var promise = auth.login($scope.user, $scope.password);
+      promise.then(function(reason) {
+        $log.log(reason);
+        $location.path('/app');
+      }, function(reason) {
+        $log.log(reason);
+        $scope.showError = true;
+        $scope.errorMsg = "Invalid login";
+      });
+    };
+  });
+</code>
+</pre>
+
+This is a controller for a form that asks the user for a username and password. It passes it to the server using the auth service and it awaits the response as a @$q@ promise.
+
+Find out if the user is logged in using @$scope.authenticated@:
+
+<pre>
+<code class="html">
+<div ng-show="authenticated">
+//...
+</div>
+</code>
+</pre>
+
+I put this around the template used for one of my routes.
 
 h1. Pub Sub
 
