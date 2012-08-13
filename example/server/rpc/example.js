@@ -15,6 +15,7 @@ exports.actions = function(req,res,ss) {
       setTimeout(function() {
         res("Receiving SpaceMail"); 
       }, 2000);
+      console.log("session data: " + req.session);
     },
     off: function(reason) {
       console.log("Received reason: %s", reason);
