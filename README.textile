@@ -188,6 +188,39 @@ Find out if the user is logged in using @$scope.authenticated@:
 
 I put this around the template used for one of my routes.
 
+h2. Server
+
+In the rpc file referenced in the configuration of the auth provider, you must have this interface: 
+
+<pre>
+<code class="javascript">
+    authenticate: function(user,pass) {
+      ss.log("User", user, "Pass", pass);
+      if(user === 'user' && pass === 'pass') {
+        ss.log("Successful login");
+        req.session.setUserId(user);
+        res(true);
+      }
+      else {
+        ss.log("Access denied! The password is user/pass");
+        res(false);
+      }
+    },
+    authenticated: function() { //this just returns whether the session is valid. allows the user to remain logged in after browser is closed
+      if(req.session.userId) {
+        res(true);
+      }
+      else {
+        res(false);
+      }
+    },
+    logout: function() {
+      req.session.setUserId(null);
+      res(true);
+    }
+</code>
+</pre>
+
 h1. Pub Sub
 
 Once you have injected this module into your app and the pubsub service into your scope, you can simply create subscriptions to scope events using angular's API, and if they are prefixed with ss-, this library will subscribe for events from scoket stream with the same name.  When socketstream pushes events, they will be wrapped into Angular scope events on the appropriate scope. 

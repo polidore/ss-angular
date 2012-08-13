@@ -54,7 +54,7 @@ angular.module('exampleApp', ['ssAngular'])
       }, function(reason) {
         $log.log(reason);
         $scope.showError = true;
-        $scope.errorMsg = "Invalid login";
+        $scope.errorMsg = "Invalid login. The username and pass for the example app is user/pass";
       });
     };
   });
