@@ -54,7 +54,6 @@ angular.module('exampleApp', ['ssAngular'])
         if($scope.redirectPath) {
           newPath = $scope.redirectPath;
         }
-
         $location.path(newPath);
       }, function(reason) {
         $log.log(reason);

@@ -162,10 +162,12 @@ Use the auth.authenticate and auth.logout functions:
       $scope.showError = false;
       var promise = auth.login($scope.user, $scope.password);
       promise.then(function(reason) {
-        $log.log(reason);
-        $location.path('/app');
+        var newPath = '/app';
+        if($scope.redirectPath) {
+          newPath = $scope.redirectPath; //this is saved if ssAngular redirects to login due to lack of authentication
+        }
+        $location.path(newPath);
       }, function(reason) {
-        $log.log(reason);
         $scope.showError = true;
         $scope.errorMsg = "Invalid login";
       });
