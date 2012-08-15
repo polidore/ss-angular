@@ -50,7 +50,12 @@ angular.module('exampleApp', ['ssAngular'])
       var promise = auth.login($scope.user, $scope.password);
       promise.then(function(reason) {
         $log.log(reason);
-        $location.path('/app');
+        var newPath = '/app';
+        if($scope.redirectPath) {
+          newPath = $scope.redirectPath;
+        }
+
+        $location.path(newPath);
       }, function(reason) {
         $log.log(reason);
         $scope.showError = true;
