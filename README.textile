@@ -92,7 +92,9 @@ But it's much more fun if you use it via angular! I've exposed a new API in the 
 <code class="javascript">
 angular.module('exampleApp', ['ssAngular'])
   .controller('SSCtrl',function($scope,model) {
-    $scope.linkModel('example',{id: 1234}); //this creates $scope.example and updates it with data in the example model filtered by id 1234
+    $scope.linkModel('example',{id: 1234}, 'modelData'); 
+      //this creates $scope.modelData and updates it with data in the example model filtered by id 1234
+      //the modelData param is optional. If omitted, the model will exists as 'example' on the scope.
   });
 </code>
 </pre>
