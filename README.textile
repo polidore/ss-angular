@@ -114,9 +114,9 @@ It's that simple.  You define your app's module, the ssAngular dependency and th
   </thead>
   <tbody>
     <tr>
-      <td>{{example.hasBall}}</td>
-      <td>{{example.leadingBy}}</td>
-      <td>{{example.serverTime}}</td>
+      <td>{{modelData.hasBall}}</td>
+      <td>{{modelData.leadingBy}}</td>
+      <td>{{modelData.serverTime}}</td>
     </tr>
   </tbody>
 </table>
