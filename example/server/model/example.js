@@ -4,7 +4,8 @@
 var names = ['Tom','Dick','Harry'];
 
 exports.make = function(des,chan,ss) {
-  //des.use if middleware required
+  des.use('session')
+  des.use('client.auth');
   
   return {
     //must have a poll function for now. may have other update models

@@ -13,6 +13,8 @@ angular.module('exampleApp', ['ssAngular'])
     $scope.streaming = false;
     $scope.status = "";
 
+    $scope.linkModel('example', {name: 'Tom'},'modelData');
+
     $scope.$on('ss-example', function(event,msg) {
       $scope.messages.push(msg);
     });
@@ -21,13 +23,11 @@ angular.module('exampleApp', ['ssAngular'])
       if(!$scope.streaming) {
         $scope.streaming = true;
         $scope.status = rpc('example.on');
-        $scope.linkModel('example', {name: 'Tom'});
       }
       else {
         $scope.streaming = false;
         $scope.messages = [];
         $scope.status = rpc('example.off', 'Too random');
-        $scope.unlinkModel('example', {name: 'Tom'});
       }
     };
 
