@@ -8,7 +8,7 @@ angular.module('exampleApp', ['ssAngular'])
       otherwise({redirectTo:'/app'});
     $locationProvider.html5Mode(true);
   })
-  .controller('SSCtrl',function($scope,$location,pubsub,rpc,model,auth) {
+  .controller('SSCtrl',['$scope','$location','pubsub','rpc','model','auth', function($scope,$location,pubsub,rpc,model,auth) {
     $scope.messages = []
     $scope.streaming = false;
     $scope.status = "";
@@ -43,8 +43,8 @@ angular.module('exampleApp', ['ssAngular'])
         $location.path("/"); 
       });
     }
-  })
-  .controller('AuthCtrl',function($scope, $location, $log, auth) {
+  }])
+  .controller('AuthCtrl',['$scope', '$location', '$log', 'auth', function($scope, $location, $log, auth) {
     $scope.processAuth = function() {
       $scope.showError = false;
       var promise = auth.login($scope.user, $scope.password);
@@ -61,4 +61,4 @@ angular.module('exampleApp', ['ssAngular'])
         $scope.errorMsg = "Invalid login. The username and pass for the example app is user/pass";
       });
     };
-  });
+  }]);
