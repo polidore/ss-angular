@@ -1,55 +1,54 @@
-h1. Approach
+# Approach
 
 Create an angular service that can be injected into controllers similar to the angular REST resource library.
 
-h1. Installing
+# Installing
 
 * Create a new socketstream app
 * Edit its package.json to add @ss-angular@ as a dependency:
 
-<pre>
+```javascript
 "dependencies": {
   "socketstream": "0.3.x",
   "ss-angular": "0.x.x"
 }
-</pre>
+```
 
-* run @npm install@
+* run `npm install`
 * Reference the ss-angular request responder in your app.js:
 
-<pre>
+```javascript
 ss.responders.add(require('ss-angular'));
-</pre>
+```
 
 This will install the backend request responder, and inject the client library for models specifically and some other wrappers around existing SocketStream features for use in AngularJS.
 
 Add the following to your @client/code/app/entry.js@ above the @ss.server.on@ line
 
-<pre>
+```javascript
 require('ssAngular');
 require('/controllers');
-</pre>
+```
 
 Then define your angular controllres in @client/code/app/controllers.js@
 
 You also have to make sure that you have angular.js in your @client/code/lib@
 
-h1. Running Example
+# Running Example
 
 If you clone this repo, there is an example.  To run it, just cd to the example dir and run @npm install@
 
-h1. Model
+# Model
 
 This is the real value of this library.  If you declare a model in @server/model@, ss-angular will poll it every @pollFreq@ seconds and push deltas to the client.  This is a read-only mechanism.  In the near future, updates will be incremental, but as of version 0.4, it just pushes the entire object on each update whether it has changed or not.  
 
 It's implemented as a request responder, and it is similar to SocketStream's rpc library.  It supports middleware in the same manner as rpc as well.
 
-h2. Server
+## Server
 
 Define a model in the @server/model@ directory. I called this one example.js:
 
-<pre>
-<code class="javascript">
+```javascript
 //des describes the model and has the middleware
 //chan is a channel on which to post the updated model object
 
@@ -72,39 +71,33 @@ exports.make = function(des,chan,ss) {
     }
   };
 };
-</code>
-</pre>
+```
 
-h2. Client
+## Client
 
 This library does expose a raw ss API called @linkModel@ and @unlinkModel@.  You just pass it the model name and parameters and it passes you back an object every N seconds.  From the ss-angular client library:
 
-<pre>
-<code class="javascript">
+```javascript
 ss.linkModel(name, params, function(modelObj) {
     scope[name] = modelObj;
 });
-</code>
-</pre>
+```
 
 But it's much more fun if you use it via angular! I've exposed a new API in the ssAngular module, and you can use it in angular controllers like this: 
 
-<pre>
-<code class="javascript">
+```javascript
 angular.module('exampleApp', ['ssAngular'])
   .controller('SSCtrl',function($scope,model) {
     $scope.linkModel('example',{id: 1234}, 'modelData'); 
       //this creates $scope.modelData and updates it with data in the example model filtered by id 1234
       //the modelData param is optional. If omitted, the model will exists as 'example' on the scope.
   });
-</code>
-</pre>
+```
 
 It's that simple.  You define your app's module, the ssAngular dependency and then inject model into your controller's dependencies.  In this case, example is the name of the file I created in @server/model@ and it will be the name of the model on angular's $scope. Here's the html that uses this controller:
 
 
-<pre>
-<code class="html">
+```html
 <table>
   <thead>
     <tr>
@@ -121,9 +114,7 @@ It's that simple.  You define your app's module, the ssAngular dependency and th
     </tr>
   </tbody>
 </table>
-
-</code>
-</pre>
+```
 
 The data in curly brackets will be automatically updated.  The link is created by simply mentioning example in the @linkModel@ command.
 
@@ -131,16 +122,15 @@ Important note: you can only subscribe to a named model once in a given scope, e
 
 The library will automatically unsubscribe from your model when the scope that created it is destroyed.
 
-h1. Authentication
+# Authentication
 
 Angular doesn't have great support for authentication.  I added a few nice things that you can use to integrate with the sessions functionality in socket stream.  This logic works nicely with the angular @$routeProvider@. 
 
-h2. Client
+## Client
 
 Define your routes and backend authentication service module:
 
-<pre>
-<code class="javascript">
+```javascript
 angular.module('exampleApp', ['ssAngular'])
   .config(function(authProvider,$routeProvider,$locationProvider) {
     authProvider.authServiceModule('example');
@@ -151,15 +141,13 @@ angular.module('exampleApp', ['ssAngular'])
       otherwise({redirectTo:'/app'});
     $locationProvider.html5Mode(true);
   })
-</code>
-</pre>
+```
 
 The login path is the path that users should be redirected to if they are not logged in.
 
 Use the auth.authenticate and auth.logout functions:
 
-<pre>
-<code class="javascript">
+```javascript
   .controller('AuthCtrl',function($scope, $location, $log, auth) {
     $scope.processAuth = function() {
       $scope.showError = false;
@@ -176,29 +164,25 @@ Use the auth.authenticate and auth.logout functions:
       });
     };
   });
-</code>
-</pre>
+```
 
 This is a controller for a form that asks the user for a username and password. It passes it to the server using the auth service and it awaits the response as a @$q@ promise.
 
 Find out if the user is logged in using @$scope.authenticated@:
 
-<pre>
-<code class="html">
+```html
 <div ng-show="authenticated">
 //...
 </div>
-</code>
-</pre>
+```
 
 I put this around the template used for one of my routes.
 
-h2. Server
+## Server
 
 In the rpc file referenced in the configuration of the auth provider, you must have this interface: 
 
-<pre>
-<code class="javascript">
+```javascript
     authenticate: function(user,pass) {
       ss.log("User", user, "Pass", pass);
       if(user === 'user' && pass === 'pass') {
@@ -223,10 +207,9 @@ In the rpc file referenced in the configuration of the auth provider, you must h
       req.session.setUserId(null);
       res(true);
     }
-</code>
-</pre>
+```
 
-h1. Pub Sub
+# Pub Sub
 
 Once you have injected this module into your app and the pubsub service into your scope, you can simply create subscriptions to scope events using angular's API, and if they are prefixed with ss-, this library will subscribe for events from scoket stream with the same name.  When socketstream pushes events, they will be wrapped into Angular scope events on the appropriate scope. 
 
@@ -234,8 +217,7 @@ This method allows you to target the events to the right part of your app and to
 
 See the example app.  The controller looks like this: 
 
-<pre>
-<code class="javascript">
+```javascript
 angular.module('exampleApp', ['ssAngular'])
   .controller('SSCtrl',function($scope,pubsub) {
     $scope.messages = []
@@ -243,15 +225,13 @@ angular.module('exampleApp', ['ssAngular'])
         $scope.messages.push(msg);
       });
     });
-</code>
-</pre>
+```
 
-h1. RPC
+# RPC
 
 This is handled with the promise API in angular ($q).  You just assign a rpc call to a $scope object, and the value will be assigned when the rpc returns and the GUI updated.  You don't use a callback.  For example:
 
-<pre>
-<code class="javascript">
+```javascript
 angular.module('exampleApp', ['ssAngular'])
   .controller('SSCtrl',function($scope,pubsub,rpc) {
     $scope.streaming = false;
@@ -268,12 +248,11 @@ angular.module('exampleApp', ['ssAngular'])
       }
     };
   });
-</code>
-</pre>
+```
 
 Here we're assigning the return value of the socketstream services we've defined to $scope.status directly. As you can see, you can pass params or not, but you can't define a callback.  If you really need a callback, just call socketstream directly!
 
 
-h1. License
+# License
 
 ss-angular is released under the MIT license.
