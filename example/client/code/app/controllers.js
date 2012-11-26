@@ -1,5 +1,5 @@
 angular.module('exampleApp', ['ssAngular'])
-  .config(function(authProvider,$routeProvider,$locationProvider) {
+  .config(['authProvider','$routeProvider','$locationProvider',function(authProvider,$routeProvider,$locationProvider) {
     authProvider.authServiceModule('example');
     authProvider.loginPath('/login');
     $routeProvider.
@@ -7,7 +7,7 @@ angular.module('exampleApp', ['ssAngular'])
       when('/app', {controller:'SSCtrl', templateUrl:'app.html'}).
       otherwise({redirectTo:'/app'});
     $locationProvider.html5Mode(true);
-  })
+  }])
   .controller('SSCtrl',['$scope','$location','pubsub','rpc','model','auth', function($scope,$location,pubsub,rpc,model,auth) {
     $scope.messages = []
     $scope.streaming = false;
