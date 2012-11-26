@@ -5,7 +5,7 @@ Create an angular service that can be injected into controllers similar to the a
 # Installing
 
 * Create a new socketstream app
-* Edit its package.json to add @ss-angular@ as a dependency:
+* Edit its package.json to add `ss-angular` as a dependency:
 
 ```javascript
 "dependencies": {
@@ -23,30 +23,30 @@ ss.responders.add(require('ss-angular'));
 
 This will install the backend request responder, and inject the client library for models specifically and some other wrappers around existing SocketStream features for use in AngularJS.
 
-Add the following to your @client/code/app/entry.js@ above the @ss.server.on@ line
+Add the following to your `client/code/app/entry.js` above the `ss.server.on` line
 
 ```javascript
 require('ssAngular');
 require('/controllers');
 ```
 
-Then define your angular controllres in @client/code/app/controllers.js@
+Then define your angular controllres in `client/code/app/controllers.js`
 
-You also have to make sure that you have angular.js in your @client/code/lib@
+You also have to make sure that you have angular.js in your `client/code/lib`
 
 # Running Example
 
-If you clone this repo, there is an example.  To run it, just cd to the example dir and run @npm install@
+If you clone this repo, there is an example.  To run it, just cd to the example dir and run `npm install`
 
 # Model
 
-This is the real value of this library.  If you declare a model in @server/model@, ss-angular will poll it every @pollFreq@ seconds and push deltas to the client.  This is a read-only mechanism.  In the near future, updates will be incremental, but as of version 0.4, it just pushes the entire object on each update whether it has changed or not.  
+This is the real value of this library.  If you declare a model in `server/model`, ss-angular will poll it every `pollFreq` seconds and push deltas to the client.  This is a read-only mechanism.  In the near future, updates will be incremental, but as of version 0.4, it just pushes the entire object on each update whether it has changed or not.  
 
 It's implemented as a request responder, and it is similar to SocketStream's rpc library.  It supports middleware in the same manner as rpc as well.
 
 ## Server
 
-Define a model in the @server/model@ directory. I called this one example.js:
+Define a model in the `server/model` directory. I called this one example.js:
 
 ```javascript
 //des describes the model and has the middleware
@@ -75,7 +75,7 @@ exports.make = function(des,chan,ss) {
 
 ## Client
 
-This library does expose a raw ss API called @linkModel@ and @unlinkModel@.  You just pass it the model name and parameters and it passes you back an object every N seconds.  From the ss-angular client library:
+This library does expose a raw ss API called `linkModel` and `unlinkModel`.  You just pass it the model name and parameters and it passes you back an object every N seconds.  From the ss-angular client library:
 
 ```javascript
 ss.linkModel(name, params, function(modelObj) {
@@ -94,7 +94,7 @@ angular.module('exampleApp', ['ssAngular'])
   });
 ```
 
-It's that simple.  You define your app's module, the ssAngular dependency and then inject model into your controller's dependencies.  In this case, example is the name of the file I created in @server/model@ and it will be the name of the model on angular's $scope. Here's the html that uses this controller:
+It's that simple.  You define your app's module, the ssAngular dependency and then inject model into your controller's dependencies.  In this case, example is the name of the file I created in `server/model` and it will be the name of the model on angular's $scope. Here's the html that uses this controller:
 
 
 ```html
@@ -116,15 +116,15 @@ It's that simple.  You define your app's module, the ssAngular dependency and th
 </table>
 ```
 
-The data in curly brackets will be automatically updated.  The link is created by simply mentioning example in the @linkModel@ command.
+The data in curly brackets will be automatically updated.  The link is created by simply mentioning example in the `linkModel` command.
 
-Important note: you can only subscribe to a named model once in a given scope, even if you use a different where clause.  The idea here is that scopes are fairly narrow, and I'd prefer to refer to the model data without the where clause for simplicity.  If I allow multiple subscriptions to the same model with different where clauses in the same scope, then I have to make you refer to the model by @name/where@ and that's ugly in the HTML.  Just create a lot of scopes and keep your model context broad enough that it "fills" a scope.
+Important note: you can only subscribe to a named model once in a given scope, even if you use a different where clause.  The idea here is that scopes are fairly narrow, and I'd prefer to refer to the model data without the where clause for simplicity.  If I allow multiple subscriptions to the same model with different where clauses in the same scope, then I have to make you refer to the model by `name/where` and that's ugly in the HTML.  Just create a lot of scopes and keep your model context broad enough that it "fills" a scope.
 
 The library will automatically unsubscribe from your model when the scope that created it is destroyed.
 
 # Authentication
 
-Angular doesn't have great support for authentication.  I added a few nice things that you can use to integrate with the sessions functionality in socket stream.  This logic works nicely with the angular @$routeProvider@. 
+Angular doesn't have great support for authentication.  I added a few nice things that you can use to integrate with the sessions functionality in socket stream.  This logic works nicely with the angular `$routeProvider`. 
 
 ## Client
 
@@ -166,9 +166,9 @@ Use the auth.authenticate and auth.logout functions:
   });
 ```
 
-This is a controller for a form that asks the user for a username and password. It passes it to the server using the auth service and it awaits the response as a @$q@ promise.
+This is a controller for a form that asks the user for a username and password. It passes it to the server using the auth service and it awaits the response as a `$q` promise.
 
-Find out if the user is logged in using @$scope.authenticated@:
+Find out if the user is logged in using `$scope.authenticated`:
 
 ```html
 <div ng-show="authenticated">
