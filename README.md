@@ -87,11 +87,11 @@ But it's much more fun if you use it via angular! I've exposed a new API in the 
 
 ```javascript
 angular.module('exampleApp', ['ssAngular'])
-  .controller('SSCtrl',function($scope,model) {
+  .controller('SSCtrl',['$scope','model',function($scope,model) {
     $scope.linkModel('example',{id: 1234}, 'modelData'); 
       //this creates $scope.modelData and updates it with data in the example model filtered by id 1234
       //the modelData param is optional. If omitted, the model will exists as 'example' on the scope.
-  });
+  }]);
 ```
 
 It's that simple.  You define your app's module, the ssAngular dependency and then inject model into your controller's dependencies.  In this case, example is the name of the file I created in `server/model` and it will be the name of the model on angular's $scope. Here's the html that uses this controller:
@@ -132,7 +132,7 @@ Define your routes and backend authentication service module:
 
 ```javascript
 angular.module('exampleApp', ['ssAngular'])
-  .config(function(authProvider,$routeProvider,$locationProvider) {
+  .config(['authProvider','$routeProvider','$locationProvider',function(authProvider,$routeProvider,$locationProvider) {
     authProvider.authServiceModule('example');
     authProvider.loginPath('/login');
     $routeProvider.
@@ -140,7 +140,7 @@ angular.module('exampleApp', ['ssAngular'])
       when('/app', {controller:'SSCtrl', templateUrl:'app.html'}).
       otherwise({redirectTo:'/app'});
     $locationProvider.html5Mode(true);
-  })
+  }])
 ```
 
 The login path is the path that users should be redirected to if they are not logged in.
@@ -148,7 +148,7 @@ The login path is the path that users should be redirected to if they are not lo
 Use the auth.authenticate and auth.logout functions:
 
 ```javascript
-  .controller('AuthCtrl',function($scope, $location, $log, auth) {
+  .controller('AuthCtrl',['$scope', '$location', '$log', 'auth', function($scope, $location, $log, auth) {
     $scope.processAuth = function() {
       $scope.showError = false;
       var promise = auth.login($scope.user, $scope.password);
@@ -219,12 +219,12 @@ See the example app.  The controller looks like this:
 
 ```javascript
 angular.module('exampleApp', ['ssAngular'])
-  .controller('SSCtrl',function($scope,pubsub) {
+  .controller('SSCtrl',['$scrope','pubsub',function($scope,pubsub) {
     $scope.messages = []
       $scope.$on('ss-example', function(event,msg) {
         $scope.messages.push(msg);
       });
-    });
+    }]);
 ```
 
 # RPC
@@ -233,7 +233,7 @@ This is handled with the promise API in angular ($q).  You just assign a rpc cal
 
 ```javascript
 angular.module('exampleApp', ['ssAngular'])
-  .controller('SSCtrl',function($scope,pubsub,rpc) {
+  .controller('SSCtrl',['$scope','pubsub','rpc',function($scope,pubsub,rpc) {
     $scope.streaming = false;
     $scope.status = "";
 
@@ -247,7 +247,7 @@ angular.module('exampleApp', ['ssAngular'])
         $scope.status = rpc('example.off', 'Too random');
       }
     };
-  });
+  }]);
 ```
 
 Here we're assigning the return value of the socketstream services we've defined to $scope.status directly. As you can see, you can pass params or not, but you can't define a callback.  If you really need a callback, just call socketstream directly!
