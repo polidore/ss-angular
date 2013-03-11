@@ -9,7 +9,7 @@ Create an angular service that can be injected into controllers similar to the a
 
 ```javascript
 "dependencies": {
-  "socketstream": "0.3.x",
+  "socketstream": "0.3.3",
   "ss-angular": "0.x.x"
 }
 ```
