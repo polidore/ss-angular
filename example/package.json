@@ -8,7 +8,6 @@
   "dependencies": {
     "socketstream": "0.3.x",
     "ss-less": "0.1.x",
-    "ss-angular": "0.x.x",
-    "ss-sockjs": "0.1.x"
+    "ss-angular": "0.x.x"
   }
 }

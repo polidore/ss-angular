@@ -22,8 +22,6 @@ ss.http.route('/', function(req, res){
 ss.client.formatters.add(require('ss-less'));
 ss.client.templateEngine.use('angular');
 
-//ss.ws.transport.use(require('ss-sockjs'));
-
 //responders
 ss.responders.add(require('ss-angular'),{pollFreq: 1000});
 
