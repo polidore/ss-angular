@@ -1,8 +1,8 @@
 {
   "name": "ss-angular",
-  "description": "Request responder and client side libraries for use of SocketStream 0.3.3+ as a back-end for AngularJS",
+  "description": "Request responder and client side libraries for use of SocketStream 0.3.4+ as a back-end for AngularJS",
   "author": "Ben Polidore <polidore@gmail.com>",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "main": "./lib/server/index.js",
   "repository": {
     "type": "git",
