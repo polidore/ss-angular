@@ -219,7 +219,7 @@ See the example app.  The controller looks like this:
 
 ```javascript
 angular.module('exampleApp', ['ssAngular'])
-  .controller('SSCtrl',['$scrope','pubsub',function($scope,pubsub) {
+  .controller('SSCtrl',['$scope','pubsub',function($scope,pubsub) {
     $scope.messages = []
       $scope.$on('ss-example', function(event,msg) {
         $scope.messages.push(msg);
