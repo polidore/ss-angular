@@ -25,14 +25,14 @@ exports.actions = function(req,res,ss) {
       }, 2000);
     },
     authenticate: function(user,pass) {
-      ss.log("User", user, "Pass", pass);
+      ss.log.info("User", user, "Pass", pass);
       if(user === 'user' && pass === 'pass') {
-        ss.log("Successful login");
+        ss.log.info("Successful login");
         req.session.setUserId(user);
         res(true);
       }
       else {
-        ss.log("Access denied! The password is user/pass");
+        ss.log.info("Access denied! The password is user/pass");
         res(false);
       }
     },
